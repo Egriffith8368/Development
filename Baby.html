@@ -1,7 +1,40 @@
 <html>
-  <p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="mEZvrG" data-user="alexzaworski" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
-  <span>See the Pen <a href="https://codepen.io/alexzaworski/pen/mEZvrG">
-  Color Changin'</a> by Alex Zaworski (<a href="https://codepen.io/alexzaworski">@alexzaworski</a>)
-  on <a href="https://codepen.io">CodePen</a>.</span>
-</p>
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script></html>
+  <style>
+  canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+  </style>
+  <script>
+      var inactive = setTimeout(function(){
+    fauxClick(cW/2, cH/2);
+  }, 2000);
+  
+  function clearInactiveTimeout() {
+    clearTimeout(inactive);
+    document.removeEventListener("mousedown", clearInactiveTimeout);
+    document.removeEventListener("touchstart", clearInactiveTimeout);
+  }
+  
+  document.addEventListener("mousedown", clearInactiveTimeout);
+  document.addEventListener("touchstart", clearInactiveTimeout);
+}
+
+function startFauxClicking() {
+  setTimeout(function(){
+    fauxClick(anime.random( cW * .2, cW * .8), anime.random(cH * .2, cH * .8));
+    startFauxClicking();
+  }, anime.random(200, 900));
+}
+
+function fauxClick(x, y) {
+  var fauxClick = new Event("mousedown");
+  fauxClick.pageX = x;
+  fauxClick.pageY = y;
+  document.dispatchEvent(fauxClick);
+}
+  </script>
+  <canvas id="c"></canvas>
+  
+</html>
